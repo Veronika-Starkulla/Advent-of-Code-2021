@@ -14,9 +14,14 @@ public class Day01 {
         List<String> inputStringList = readInputTxt(bufferedReader);
         List<Integer> inputIntegerList = convertToIntegerList(inputStringList);
 
+//        Part 1
         int numberOfIncreases = countIncreases(inputIntegerList);
 
+//        Part 2
+        int numberOfIncreases2 = countIncreases2(inputIntegerList);
+
         System.out.println(numberOfIncreases);
+        System.out.println(numberOfIncreases2);
 
     }
 
@@ -27,6 +32,7 @@ public class Day01 {
         }
         return integerList;
     }
+    
     public static int countIncreases(List<Integer> input) {
         int numberofIncreases = 0;
 
@@ -36,6 +42,17 @@ public class Day01 {
                 numberofIncreases += 1;
             }
         }
+        return numberofIncreases;
+    }
+
+    public static int countIncreases2(List<Integer> input) {
+
+        List<Integer> windowList = new ArrayList<>();
+        for (int i = 0; i<input.size()-2; i++) {
+            windowList.add(input.get(i)+input.get(i+1)+input.get(i+2));
+        }
+
+        int numberofIncreases = countIncreases(windowList);
         return numberofIncreases;
     }
 
