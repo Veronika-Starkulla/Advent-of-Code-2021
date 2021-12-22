@@ -10,7 +10,7 @@ public class Day01 {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("txtInputData/day01input.txt"));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("txtInputData/Day01/input.txt"));
         List<String> inputStringList = readInputTxt(bufferedReader);
         List<Integer> inputIntegerList = convertToIntegerList(inputStringList);
 
@@ -32,7 +32,7 @@ public class Day01 {
         }
         return integerList;
     }
-    
+
     public static int countIncreases(List<Integer> input) {
         int numberofIncreases = 0;
 
