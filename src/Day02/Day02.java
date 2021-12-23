@@ -15,7 +15,7 @@ public class Day02 {
 
 //        Part 1
         int position = countPosition(inputStringList);
-        
+
 //        Part 2
         int position2 = countPosition2(inputStringList);
 
