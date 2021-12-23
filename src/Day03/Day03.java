@@ -11,21 +11,93 @@ public class Day03 {
 
     public static void main(String[] args) throws IOException {
 
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("txtInputData/Day03/input.txt"));
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("txtInputData/Day03/test.txt"));
         List<String> inputStringList = readInputTxt(bufferedReader);
+
+        //        Part 1
 
         List<int[]> zerosAndOnes = countZerosAndOnes(inputStringList);
         int[] sumZero = zerosAndOnes.get(0);
         int[] sumOne = zerosAndOnes.get(1);
 
+//        save most common bit in gammaRate and least common bit in epsilonRate
         List<int[]> gammaAndEpsilon = detectGammaAndEpsilon(sumZero, sumOne);
         int[] gammaRate = gammaAndEpsilon.get(0);
         int[] epsilonRate = gammaAndEpsilon.get(1);
-        
+
+//        convert from binary to decimal
         int gamma = convertToDecimal(gammaRate);
         int epsilon = convertToDecimal(epsilonRate);
 
         System.out.println(gamma*epsilon);
+
+//        Part 2
+
+        List<String> oxygenList = new ArrayList<>(inputStringList);
+        String oxygen = detectOxygen(oxygenList);
+        System.out.println(oxygen);
+
+        List<String> co2List = new ArrayList<>(inputStringList);
+        String c02 = detectCO2(co2List);
+        System.out.println(c02);
+
+        int[] oxygenArr = convertToIntArray(oxygen);
+        int[] co2Arr = convertToIntArray(c02);
+
+        int oxygenDec = convertToDecimal(oxygenArr);
+        int co2Dec = convertToDecimal(co2Arr);
+
+        System.out.println(oxygenDec);
+        System.out.println(co2Dec);
+        System.out.println(co2Dec * oxygenDec);
+    }
+
+    public static int[] convertToIntArray(String input) {
+        String[] oxygenArr = input.split("");
+        int[] intArr = new int[oxygenArr.length];
+        for (int i= 0; i < oxygenArr.length; i++) {
+            intArr[i] = Integer.parseInt(oxygenArr[i]);
+        }
+        return intArr;
+    }
+
+    public static String detectCO2(List<String> input) {
+        int[] sumZero = new int[input.get(0).length()];
+        int index = 0;
+        while (input.size() > 1 && index < sumZero.length) {
+            List<int[]> newCalc = countZerosAndOnes(input);
+            int[] sumOne = newCalc.get(1);
+            sumZero = newCalc.get(0);
+            for (int i = input.size()-1; i >= 0; i--) {
+                if (sumZero[index] <= sumOne[index] && input.get(i).charAt(index) == '1') {
+                    input.remove(i);
+                }else if (sumOne[index] < sumZero[index] && input.get(i).charAt(index) == '0') {
+                    input.remove(i);
+                }
+            }
+            index++;
+        }
+        return input.get(0);
+    }
+
+    public static String detectOxygen(List<String> input) {
+        int[] sumZero = new int[input.get(0).length()];
+
+        int index = 0;
+        while (input.size() > 1 && index < sumZero.length) {
+            List<int[]> newCalc = countZerosAndOnes(input);
+            int[] sumOne = newCalc.get(1);
+            sumZero = newCalc.get(0);
+            for (int i = input.size()-1; i >= 0; i--) {
+                if (sumZero[index] > sumOne[index] && input.get(i).charAt(index) == '1') {
+                    input.remove(i);
+                }else if (sumOne[index] >= sumZero[index] && input.get(i).charAt(index) == '0') {
+                    input.remove(i);
+                }
+            }
+            index++;
+        }
+        return input.get(0);
     }
 
     public static List<int[]> countZerosAndOnes(List<String> input) {
